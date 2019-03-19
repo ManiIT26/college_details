@@ -50,13 +50,7 @@ class Department_roleModel Extends CI_Model{
 	 	print_r(json_encode($select_role));
 	 }
 
-	  public function delete_role_details($role_id){
-
-	 	$up_array = array('status'=>0); 
-
-	 	$this->db->where('role_id',$role_id);
-	 	$this->db->update(ROLE,$up_array);
-	 }
+	
 }
 
 ?>
