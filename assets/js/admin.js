@@ -295,11 +295,11 @@ $.AdminBSB.input = {
 *  You can manage the 'select' of form elements
 *  
 */
-$.AdminBSB.select = {
+/*$.AdminBSB.select = {
     activate: function () {
         if ($.fn.selectpicker) { $('select:not(.ms)').selectpicker(); }
     }
-}
+}*/
 //==========================================================================================================================
 
 /* DropdownMenu - Function =================================================================================================
@@ -451,7 +451,7 @@ $(function () {
     $.AdminBSB.navbar.activate();
     $.AdminBSB.dropdownMenu.activate();
     $.AdminBSB.input.activate();
-    $.AdminBSB.select.activate();
+    //$.AdminBSB.select.activate();
     $.AdminBSB.search.activate();
 
     setTimeout(function () { $('.page-loader-wrapper').fadeOut(); }, 50);

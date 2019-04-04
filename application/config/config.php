@@ -5,6 +5,21 @@ define('USERS','users');
 define('COLLEGE_DETAILS','college_details');
 define('DEPARTMENT','department');
 define('ROLE','role_details');
+define('HOLIDAY_EVENT_FIX', 'holiday_event'); 
+define('STAFF_DETAILS', 'staff_details'); 
+define('LEAVE_MANAGEMENT', 'leave_management'); 
+define('STAFF_LEAVE', 'staff_leave'); 
+define('ATTENDANCE', 'attendance_log');
+define('ATTENDANCE_PERMISSION', 'attend_permission_management'); 
+define('STAFF_ATTENDANCE', 'emp_attendance'); 
+define('COMMON_MAIL', 'attendance_mail');
+define('ALTER_STAFF', 'leave_alter_staff_management');  
+define('CCL_COUNT', 'ccl_leave_maintance');
+define('ATTACHMENT', 'attendance_attachment');  
+
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +43,7 @@ define('ROLE','role_details');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/college_attendance/';
+$config['base_url'] = 'http://10.10.0.146/college_attendance_new/';  
 
 /*
 |--------------------------------------------------------------------------
