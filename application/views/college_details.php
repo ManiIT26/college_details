@@ -1,4 +1,4 @@
-<section class="content"  >  
+<section class="content"  ng-controller="Common_conroller" ng-app="Common_app">  
 	<div class="container-fluid">
             
 		<div class="block-header">
@@ -6,79 +6,18 @@
         </div>
 
         <div class="conteiner-fluid">
-        	<div class="col-sm-4">
+        	
+
+            <div class="col-sm-8" >
                 
                     <div class="card">
-                        <div class="header">
-                            <h2>Add College Details</h2>
-                            
-                        </div>
-                        <div class="body">
-                            <form id="form_validation" method="POST"  >
-                                <div class="form-group form-float ">
-                                    <div class="form-line  college_form">
-                                        <input type="text"   class="form-control college_form" name="college_name" required aria-required="true" aria-invalid="true">
-                                        <input type="hidden"   class="form-control college_id" name="college_id" required aria-required="true" aria-invalid="true">
-                                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                                        <label class="form-label">College Name</label>
-                                    </div>
-                                </div>    
-
-                                <div class="form-group form-float">
-
-                                    <div class="form-line  ">
-                                        <textarea class="form-control college_form"   name="colleg_addr"  type="text" required aria-required="true" rows="5" ></textarea>
-                                        <label class="form-label">College Address</label>
-                                    </div>
-                                </div>    
-
-                                <!-- <div class="form-group form-float">
-                                    <div class="form-line  ">
-                                        <input type="file" class="form-control" name="college_name" required="" aria-required="true" aria-invalid="true">
-                                        <label class="form-label">College Logo</label>
-                                    </div>
-                                </div> -->  
-
-                                <!-- <div class="form-group form-float">
-                                    <div class="form-line  ">
-                                        <input type="text" class="form-control" name="college_name" required aria-required="true" aria-invalid="true">
-                                        <label class="form-label">College Logo</label>
-                                    </div>
-                                </div>   -->
-
-                                  
-                                <div class="form-group form-float">
-                                    <div class="form-line  ">
-                                        <input type="text"     class="form-control college_form" name="college_latitude" required aria-required="true" aria-invalid="true">
-                                        <label class="form-label">College latitude </label>
-                                    </div>
-                                </div> 
-
-                                <div class="form-group form-float">
-                                    <div class="form-line  ">
-                                        <input type="text"   class="form-control college_form" name="college_longitude" required aria-required="true" aria-invalid="true">
-                                        <label class="form-label">College longitude </label>
-                                    </div>
-                                </div>
-                                    <br>
-                              
-                                <button class="btn btn-success waves-effect" type="submit">SUBMIT</button>
-                            </form>
-                        </div>
-                    </div>
-                        
-            </div>
-
-            <div class="col-sm-8" ng-controller="Common_conroller" ng-app="Common_app">
-                
-                    <div class="card">
-                        <div class="header">
+                        <div class="header bg-blue-grey">
                             <h2>View College Details</h2>
                             
                         </div>
 
                         <div class="body">
-                            <div class="table-responsive">
+                            <div class="">
                                     
                                 <div class="row">
                                     <!-- <div class="col-sm-2 pull-left">
@@ -107,6 +46,7 @@
                                                     <th>Address</th>
                                                     <th>latitude </th>
                                                     <th>longitude </th>
+                                                    <th>Radius</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -117,6 +57,7 @@
                                                     <td>{{data.college_addr}}</td>
                                                     <td>{{data.college_latitude}}</td>
                                                     <td>{{data.college_longitude}}</td>
+                                                    <td>{{data.college_radius}}</td>
 
                                                     <td style="    width: 3cm;">
                                                         <button type="button" class="btn btn-danger waves-effect"  ng-click="delete_college_details(data.college_id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -142,6 +83,90 @@
                         </div>
                     </div>
                       
+            </div>
+
+            <div class="col-sm-4">
+                
+                    <div class="card">
+                        <div class="header bg-orange">
+                            <h2>Add College Details</h2>
+                            
+                        </div>
+                        <div class="body">
+                            <form id="form_validation" method="POST" class="college_details_submit" ng-submit="college_details_submit()">
+                                <div class="form-group form-float ">
+                                    <div class="form-line  college_form">
+                                        <input type="text"   class="form-control college_form" name="college_name" required aria-required="true" aria-invalid="true">
+                                        <input type="hidden"   class="form-control college_id" name="college_id" required aria-required="true" aria-invalid="true">
+                                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                                        <label class="form-label">College Name</label>
+                                    </div>
+                                </div>    
+
+                                <div class="form-group form-float">
+
+                                    <div class="form-line  ">
+                                        <textarea class="form-control college_form"   name="colleg_addr"  type="text" required aria-required="true" rows="5" ></textarea>
+                                        <label class="form-label">College Address</label>
+                                    </div>
+                                </div>    
+
+                                 
+
+                                  
+                                <div class="form-group form-float">
+                                    <div class="form-line  ">
+                                        <input type="number" step="0.00000000000000001"     class="form-control college_form" name="college_latitude" required aria-required="true" aria-invalid="true">
+                                        <label class="form-label">College latitude </label>
+                                    </div>
+                                </div> 
+
+                                <div class="form-group form-float">
+                                    <div class="form-line  ">
+                                        <input type="number" step="0.00000000000000001"   class="form-control college_form" name="college_longitude" required aria-required="true" aria-invalid="true">
+                                        <label class="form-label">College longitude </label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line  ">
+                                        <input type="number" step="0.1"  class="form-control college_form" name="college_radius" required aria-required="true" aria-invalid="true">
+                                        <label class="form-label">Radius </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-float">
+                                    <div class="form-line  ">
+                                        <input type="text"   class="form-control college_user" name="college_user" required aria-required="true" aria-invalid="true">
+                                        <label class="form-label">Username </label>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group form-float">
+                                    <div class="form-line  ">
+                                        <input type="password"  id="password" name="password" class="form-control newpassword"  autocomplete="off"  required>
+                                        <label class="form-label">Password </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-float">
+                                    <div class="form-line  ">
+                                        <input type="password"  id="confrim_password" name="confrim_password" class="form-control confrimpassword"   required>
+                                        <label class="form-label">Confirm Password </label>
+                                    </div>
+                                </div>
+
+
+
+                                  
+
+                                
+                              
+                                <button class="btn btn-success waves-effect" type="submit">SUBMIT</button>
+                            </form>
+                        </div>
+                    </div>
+                        
             </div>
         </div>
 	</div>

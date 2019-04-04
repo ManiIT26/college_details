@@ -1,3 +1,5 @@
+    
+
 <!DOCTYPE html>
 <html>
 
@@ -5,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Welcome To | Bootstrap Based Admin Template - Material Design</title>
+    <title>Mahendra Educational Institutions<?php //echo "Welcome To | ".$get_college['college_name']; ?></title>
     <!-- Favicon-->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
@@ -30,11 +32,12 @@
     <link href="assets/css/style.css" rel="stylesheet">
 
     <link href="assets/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">
+    <link href="assets/css/bootstrap_datepicker.css" rel="stylesheet" type="text/css" media="all">
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="assets/css/themes/all-themes.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" href="assets/css/jquery_confirm.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
@@ -46,6 +49,45 @@
 
     <script src="assets/js/angular_ui.js"></script>
 </head>
+
+<style type="text/css">
+	.block-header{
+		display:none;
+	}
+    /*.switch label .lever {
+    content: "";
+    display: inline-block;
+    position: relative;
+    width: 90px;
+    height: 40px;
+    background-color: #818181;
+    border-radius: 10px;
+    margin-right: 10px;
+    transition: background 0.3s ease;
+    vertical-align: middle;
+    margin: 0 16px;
+}*/
+
+/*.switch label .lever:after {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    background-color: #F1F1F1;
+    border-radius: 22px;
+    box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4);
+    left: 50px;
+    top: -3px;
+    transition: left 0.3s ease, background .3s ease, box-shadow 0.1s ease;
+}*/
+
+.required label:after {
+    color: #e32;
+    content: ' *';
+    display: inline;
+}
+</style>
 
 <body class="theme-indigo">
     <!-- Page Loader -->
@@ -64,6 +106,8 @@
             <p>Please wait...</p>
         </div>
     </div>
+
+  
     <!-- #END# Page Loader -->
     <!-- Overlay For Sidebars -->
     <div class="overlay"></div>
@@ -84,244 +128,228 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
-                <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="index.html">ADMINBSB - MATERIAL DESIGN</a>
+                <a href="javascript:void(0);" class="bars">
+                    
+                </a>
+                <a class="navbar-brand" href="index.html" style="font-size: 25px; text-transform:uppercase"> 
+					<?php   
+					if($get_college['college_name'] == ''){ 
+						echo 'Mahendra Admin'; 
+					}
+					else{ 
+						echo $get_college['college_name']; 
+					}?>
+				</a>
             </div>
-            <div class="collapse navbar-collapse" id="navbar-collapse">
+			<!--
+			<span style="float:right">
+				<div class="switch" style="position: relative; top: 24px;"> 
+					 <label style="color:#fff">
+						Campus 
+						<input class="attendance_add" data-toggle="modal"  data-backdrop="static" data-keyboard="false"
+
+						<?php  
+						/*
+						if(isset($check_attd['attendance_type'])){ 
+							if($check_attd['attendance_type'] == 1){
+								 echo 'checked'; 
+								 $attd_type = 0; 
+							}
+							else{ 
+								$attd_type = 1;
+							}
+						}
+						else{
+							$attd_type = 2; 
+						} 
+
+						if($holiday != 0){
+							echo 'disabled'; 
+						}*/
+						?>  
+						type="checkbox" onClick="add_attendance(<?php echo $this->session->userdata('user_type_id').','.$this->session->userdata('college_id').','.$attd_type; ?>)" > 
+						<span class="lever switch-col-amber"></span>
+					</label>
+
+					
+				</div>
+			</span>
+			-->
+            <div class="collapse collapse-nav navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Call Search -->
-                    <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
+
+                  
+                    <li>
+						<a href="javascript:void(0);"  > 
+							<?php  if($this->session->userdata('user_type') != 'super_admin' && $this->session->userdata('user_type') != 'college_admin' && $user['staff_attendance_type'] == 1){ ?>
+											
+											<div class="switch"> 
+
+												 <label>Campus<input class="attendance_add" data-toggle="modal"  data-backdrop="static" data-keyboard="false"
+
+												<?php  if(isset($check_attd['attendance_type'])){ 
+															if($check_attd['attendance_type'] == 1){
+																 echo 'checked'; $attd_type = 0; 
+															}
+															else{ 
+																$attd_type = 1;
+															}
+														 }
+														else{
+														  $attd_type = 2; 
+														} 
+
+														if($holiday != 0){
+
+														 echo 'disabled'; 
+														} 
+												?> 
+
+												type="checkbox" onClick="add_attendance(<?php echo $this->session->userdata('user_type_id').','.$this->session->userdata('college_id').','.$attd_type; ?>)" ><span class="lever switch-col-amber"></span></label>
+
+												
+											</div>
+										<?php  } ?>
+
+						</a>
+					</li>
+                     
                     <!-- #END# Call Search -->
-                    <!-- Notifications -->
-                    <li class="dropdown">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                            <i class="material-icons">notifications</i>
-                            <span class="label-count">7</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">NOTIFICATIONS</li>
-                            <li class="body">
-                                <ul class="menu">
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-light-green">
-                                                <i class="material-icons">person_add</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4>12 new members joined</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> 14 mins ago
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-cyan">
-                                                <i class="material-icons">add_shopping_cart</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4>4 sales made</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> 22 mins ago
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-red">
-                                                <i class="material-icons">delete_forever</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4><b>Nancy Doe</b> deleted account</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> 3 hours ago
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-orange">
-                                                <i class="material-icons">mode_edit</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4><b>Nancy</b> changed name</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> 2 hours ago
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-blue-grey">
-                                                <i class="material-icons">comment</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4><b>John</b> commented your post</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> 4 hours ago
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-light-green">
-                                                <i class="material-icons">cached</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4><b>John</b> updated status</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> 3 hours ago
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-purple">
-                                                <i class="material-icons">settings</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4>Settings updated</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> Yesterday
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="footer">
-                                <a href="javascript:void(0);">View All Notifications</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- #END# Notifications -->
-                    <!-- Tasks -->
-                    <li class="dropdown">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                            <i class="material-icons">flag</i>
-                            <span class="label-count">9</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">TASKS</li>
-                            <li class="body">
-                                <ul class="menu tasks">
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Footer display issue
-                                                <small>32%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-pink" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 32%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Make new buttons
-                                                <small>45%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-cyan" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Create new dashboard
-                                                <small>54%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-teal" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 54%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Solve transition issue
-                                                <small>65%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-orange" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 65%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Answer GitHub questions
-                                                <small>92%</small>
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 92%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="footer">
-                                <a href="javascript:void(0);">View All Tasks</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- #END# Tasks -->
-                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
+                     
+                    <!-- <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li> -->
                 </ul>
             </div>
         </div>
     </nav>
+
+
+
+
+    <div class="modal fade in" id="smallModal" tabindex="-1" role="dialog" style="display: none;">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="smallModalLabel">Attendance log</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" class="attenndance_logout">
+                                <div class="form-group">
+                                    <label for="password">Log</label>
+                                    <div class="form-line">
+                                        <select class="form-control show-tick attendance_log" name="attendance_log" required="">
+                                            <option value="">-- Please select --</option>
+                                            
+                                            <?php 
+                                                $start_time = date('H:i:s',strtotime('16:30:00'));
+
+                                                $perm_start_time = date('H:i:s',strtotime('15:30:00'));
+
+                                                $curr_time = date('H:i:s');
+
+                                                if(strtotime($start_time) >= strtotime($curr_time)){  ?>
+
+                                            <option value="Emergency">Emergency</option>
+                                            <option value="OD">OD</option>
+                                                <?php }else{?>
+
+                                                <option value="Logout">Logout</option>
+                                                 <?php } if(strtotime($curr_time) >= strtotime($perm_start_time) && strtotime($curr_time) <= strtotime($start_time)){ ?>
+
+                                            <option value="Permission">Permission</option>
+                                            <?php   }  ?>
+                                        </select>
+                                        
+                                    </div>
+                                     <label id="email-error" class="error" for="email"> </label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-link waves-effect" onClick="add_attendance(<?php echo $this->session->userdata('user_type_id').','.$this->session->userdata('college_id').',0'; ?>)">OK</button>
+                            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal" onclick="close_modal()">CLOSE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
     <!-- #Top Bar -->
     <section>
         <!-- Left Sidebar -->
         <aside id="leftsidebar" class="sidebar">
+			<style>
+			
+			</style>
             <!-- User Info -->
             <div class="user-info">
-                <div class="image">
-                    <img src="images/user.png" width="48" height="48" alt="User" />
+                <div class="image" style="border-radius:50% !important;">
+                    <?php if($user['profile_image'] != ''){?>
+                    <img src="assets/images/staff_profile/<?php echo $user['profile_image']  ?>"  alt="User" />
+                    <?php }else{ ?>
+                    <img src="assets/images/default.jpg?>" alt="User" /> 
+                    <?php } ?>
                 </div>
-                <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                    <div class="email">john.doe@example.com</div>
-                    <div class="btn-group user-helper-dropdown">
+               <div class="info-container">
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                         <?php if($this->session->userdata('user_type')== 'super_admin'){ ?>
+                        <span style="font-weight: bold;font-size: 17px; font-style:normal">Admin<span>
+                       <?php }else if($this->session->userdata('user_type') == 'college_admin'){ ?>
+                                <span style="font-weight: bold;font-size: 17px; font-style:normal">College Admin<span>
+                     <?php  }else if($this->session->userdata('user_type') == 'college_admin_bio'){  ?>
+                       <span style="font-weight: bold;font-size: 17px; font-style:normal">Biometric<span>
+                        <?php } ?>
+						<?php 
+						
+						echo '<span style="font-weight: bold;font-size: 17px; font-style:normal">'.strtoupper($user['firstname']).' '.strtoupper($user['lastname']). ' - ' .$user['staff_id'].  '</span><br>';
+						if(isset($user['role']) && $user['role']!=""){
+							echo '( '.ucwords($user['role']).' )';
+						}
+                         if(isset($user['department_name']) && $user['department_name']!=""){
+                            echo '<br>'.ucwords($user['department_name']);
+                        }
+
+                        ?>	
+                       
+					</div>
+					
+                   <?php /*  <div class="email"><?php echo $user['email_id']  ?></div>
+
+					<div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-                            <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
+                            <li><a href="<?php echo base_url().'profile'; ?>"><i class="material-icons">person</i>Profile</a></li>
+                             
                             <li role="seperator" class="divider"></li>
                             <li><a href="<?php echo base_url().'logout'; ?>"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
-                    </div>
+                    </div><?php */?>
                 </div>
             </div>
             <!-- #User Info -->
             <!-- Menu -->
             <div class="menu">
                 <ul class="list">
-                    <li class="header">MAIN NAVIGATION</li>
+					<!--<li class="header">
+						<h5 style="text-align:centers"><?php echo strtoupper($user['firstname']).' '.strtoupper($user['lastname']).'<br>'.strtolower($user['role']); ?></h5>
+					</li>-->
+
                     <li class="active">
-                        <a href="index.html">
+                        <a href="<?php echo base_url().'index' ?>">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
                     </li>
-                    <li>
+                    <?php if($this->session->userdata('user_type') == 'staff'){ ?>
+                    <li class="">
+						<a href="<?php echo base_url().'profile'; ?>" >
+							<i class="material-icons">person</i>
+							<span>My Profile</span>
+						</a>
+					</li>
+                    <?php } ?>
+                    <!-- <li>
                         <a href="pages/typography.html">
                             <i class="material-icons">text_fields</i>
                             <span>Typography</span>
@@ -378,86 +406,104 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
+
+                     <?php if($this->session->userdata('user_type') != 'staff' &&$this->session->userdata('user_type') != 'college_admin_bio'){ ?>
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
-                            <i class="material-icons">swap_calls</i>
-                            <span>User Interface (UI)</span>
+                            <i class="material-icons">location_city</i>
+                            <span>Settings</span>
                         </a>
                         <ul class="ml-menu">
+
+                             <?php if($this->session->userdata('user_type') == 'super_admin'){ ?>
                             <li>
-                                <a href="pages/ui/alerts.html">Alerts</a>
+                                <a href="<?php echo base_url().'college_details' ?>">Add College</a>
+                            </li>
+                            <?php }else if($this->session->userdata('user_type') == 'college_admin'){ ?>
+                            <li>
+                                <a href="<?php echo base_url().'department_role' ?>">Add Department & Role</a>
                             </li>
                             <li>
-                                <a href="pages/ui/animations.html">Animations</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/badges.html">Badges</a>
+                                <a href="<?php echo base_url().'staff_details' ?>">Add Staff Details</a>
                             </li>
 
                             <li>
-                                <a href="pages/ui/breadcrumbs.html">Breadcrumbs</a>
+                                <a href="<?php echo base_url().'holiday_event' ?>">Add Holidays</a>
                             </li>
-                            <li>
-                                <a href="pages/ui/buttons.html">Buttons</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/collapse.html">Collapse</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/colors.html">Colors</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/dialogs.html">Dialogs</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/icons.html">Icons</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/labels.html">Labels</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/list-group.html">List Group</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/media-object.html">Media Object</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/modals.html">Modals</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/notifications.html">Notifications</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/pagination.html">Pagination</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/preloaders.html">Preloaders</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/progressbars.html">Progress Bars</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/range-sliders.html">Range Sliders</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/sortable-nestable.html">Sortable & Nestable</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/tabs.html">Tabs</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/thumbnails.html">Thumbnails</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/tooltips-popovers.html">Tooltips & Popovers</a>
-                            </li>
-                            <li>
-                                <a href="pages/ui/waves.html">Waves</a>
-                            </li>
+
+                            
+                            <?php }?>
+                            
                         </ul>
                     </li>
+                    <?php } ?>
+
                     <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">tab</i>
+                            <span>Attendance <span class="badge" style="background: red;
+    color: white;margin: 0px 0 1px 6px;"><?php if($this->common_staff_details->View_approve_req() != 0){ echo $this->common_staff_details->Leave_notification(); }?></span></span>
+                        </a>
+                        <ul class="ml-menu">
+                             <?php if($this->session->userdata('user_type') != 'super_admin' && $this->session->userdata('user_type') != 'college_admin' &&$this->session->userdata('user_type') != 'college_admin_bio'){ ?>   
+                            <li>
+                                <a href="<?php echo base_url().'leave_apply' ?>">Leave Apply</a>
+                            </li>
+                            <?php } ?>
+                            <?php  if($this->session->userdata('user_type') == 'staff' && $this->common_staff_details->View_approve_req() != 0 &&$this->session->userdata('user_type') != 'college_admin_bio'){ ?> 
+                            <li>
+                                <a href="<?php echo base_url().'approve_leave' ?>">Approve Leave <span class="badge" style="background: red;
+    color: white;margin: 0px 0 1px 6px;"><?php echo $this->common_staff_details->Leave_notification(); ?></span></a>
+                            </li>
+                             <?php } ?>
+                            <?php if($this->session->userdata('user_type') == 'super_admin' || $this->session->userdata('user_type') == 'college_admin' &&$this->session->userdata('user_type') != 'college_admin_bio'){ ?>   
+                            <li>
+                                <a href="<?php echo base_url().'attendance_log' ?>">Attendance  Log</a>
+                                 <a href="<?php echo base_url().'attendance_time_duration' ?>">Time Duration</a>
+                            </li>
+                            <?php } ?>
+
+                            <?php if($this->session->userdata('user_type') == 'college_admin' || $this->session->userdata('user_type') == 'college_admin_bio'){ ?>     
+                            <li>
+                                <a href="<?php echo base_url().'bio_metric' ?>">Bio Metrics</a>
+                            </li>
+                            <?php } ?>
+
+                             <?php if($this->session->userdata('user_type') == 'college_admin'){ ?>   
+                            <li>
+                                <a href="<?php echo base_url().'attendance_update' ?>">Attendance Update</a>
+                            </li>
+                             <li>
+                                <a href="<?php echo base_url().'leave_update' ?>">Leave Update</a>
+                            </li>
+                           <?php } ?>
+                             
+                            
+                        </ul>
+                    </li>
+					 <!--
+					<li class="">
+                        <a href="<?php echo base_url().'leave_dashboard' ?>">
+                            <i class="material-icons">dashboard</i>
+                            <span>Leave Dashboard</span>
+                        </a>
+                    </li>
+					-->
+                    <li>
+                        <a href="<?php echo base_url().'change_password'; ?>">
+                            <i class="material-icons">lock_outline</i>
+                            <span>Change Password</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="<?php echo base_url().'logout'; ?>">
+                            <i class="material-icons">input</i>
+                            <span>Sign Out</span>
+                        </a>
+                    </li>
+                    <!-- <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">assignment</i>
                             <span>Forms</span>
@@ -646,19 +692,20 @@
                             <i class="material-icons col-light-blue">donut_large</i>
                             <span>Information</span>
                         </a>
-                    </li>
+                    </li> -->
+
                 </ul>
             </div>
             <!-- #Menu -->
             <!-- Footer -->
-            <div class="legal">
+           <!--  <div class="legal">
                 <div class="copyright">
                     &copy; 2016 - 2017 <a href="javascript:void(0);">AdminBSB - Material Design</a>.
                 </div>
                 <div class="version">
                     <b>Version: </b> 1.0.5
                 </div>
-            </div>
+            </div> -->
             <!-- #Footer -->
         </aside>
         <!-- #END# Left Sidebar -->

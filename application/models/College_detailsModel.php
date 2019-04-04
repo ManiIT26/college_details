@@ -2,15 +2,31 @@
 class College_detailsModel Extends CI_Model{
 
 
-	public function Insert_college_details($college_details,$college_id){
+	public function Insert_college_details($college_details,$college_id,$usr_data){
+
+
+		
+
 
 		if($college_id == ''){
 
+
+
 			$this->db->insert(COLLEGE_DETAILS,$college_details);
+
+			$insert_id = $this->db->insert_id();
+
+			$usr_data = $usr_data+ array('college_id'=>$insert_id,'user_type_id'=>0);
+
+			$this->db->insert(USERS,$usr_data);
 		}
 		else{
 			$this->db->where('college_id',$college_id);
 			$this->db->update(COLLEGE_DETAILS,$college_details);
+
+			$this->db->where('college_id',$college_id);
+			$this->db->update(USERS,$usr_data);
+   
 		}	
 
 	}
