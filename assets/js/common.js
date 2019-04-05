@@ -668,15 +668,12 @@ common.controller('Leave_policyController', function($scope,$http,$timeout){
 common.controller('Approve_LeaveController', function($scope,$http,$timeout){
 
 	$http.post('approve_leave/Get_req_list',{'level_type':1})
-	.then(function(response){
-		 
-		//console.log(response.data); 
+	.then(function(response){	
 
-			$scope.leve1_1_count = response.data['leve1_1_count'];
+			console.log(response.data);	 
 
-			$scope.level_2_count = response.data['level_2_count']
-		 
-			$scope.role_Type = response.data['role_type'];
+			$scope.leave_count = response.data['leave_count'];
+			$scope.leave_count_his = response.data['leave_count_his'];		 
 
 			$scope.Leave_details = response.data['leave_management'];
 			$scope.current_grid = 1;
@@ -688,16 +685,15 @@ common.controller('Approve_LeaveController', function($scope,$http,$timeout){
 
 	$scope.get_leave_req = function(level_type){
 
+
+
+
 		$http.post('approve_leave/Get_req_list',{'level_type':level_type})
 		.then(function(response){	
+  			console.log(response.data);
 
-			//console.log(response.data); 
-
-			$scope.leve1_1_count = response.data['leve1_1_count'];
-
-			$scope.level_2_count = response.data['level_2_count']
-		 
-			$scope.role_Type = response.data['role_type'];
+			$scope.leave_count = response.data['leave_count'];
+			$scope.leave_count_his = response.data['leave_count_his'];		 
 
 			$scope.Leave_details = response.data['leave_management'];
 			$scope.current_grid = 1;
@@ -732,6 +728,9 @@ common.controller('Approve_LeaveController', function($scope,$http,$timeout){
 
 	$scope.accept_leave_apply = function(emp_leave_id,staff_id,role_type){ 
 
+		//console.log(emp_leave_id,staff_id,role_type);
+
+
 		$http.post('approve_leave/Approve_leave_req',{'emp_leave_id':emp_leave_id,'staff_id':staff_id,'role_type':role_type})
 		.then(function(response){
 
@@ -742,7 +741,7 @@ common.controller('Approve_LeaveController', function($scope,$http,$timeout){
 
 	$scope.reject_leave_apply = function(emp_leave_id,staff_id,role_type,reject_reason){
 
-		console.log(emp_leave_id,staff_id,role_type,reject_reason);
+		//console.log(emp_leave_id,staff_id,role_type,reject_reason);
 
 
 		if(reject_reason != undefined){

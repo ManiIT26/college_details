@@ -287,53 +287,80 @@ class common_staff_details{
  		//get_level 1 
 
  		$this->CI->db->where('sl.approve_type >=',1);
- 		$this->CI->db->where('sl.approve_status != ',0); 
- 		$this->CI->db->where('sl.approve_status != ',3);
+ 		$this->CI->db->where('sl.approve_status',1);  
  		$this->CI->db->where('sl.alter_staff1_status',1);
  		$this->CI->db->where('sl.alter_staff2_status',1);
  		$this->CI->db->where('sl.report1',$get_emp_staff_id['staff_id']);
  		$this->CI->db->from(''.STAFF_LEAVE.' as sl');
 		$this->CI->db->join(''.STAFF_DETAILS.' as s','sl.staff_id = s.staff_id AND s.status = 1');
 		$this->CI->db->order_by('sl.approve_status','ASC');
+		$this->CI->db->select('s.staff_id,s.firstname,s.lastname,sl.apply_date,sl.from_date,sl.to_date,sl.reason,sl.file_name,sl.approve_status,sl.emp_leave_id,sl.leave_type,"1" as role_type,"Level 1" as leave_status');
 		$get_level_1 = $this->CI->db->get()->result_array();
-
 
 		//get_level 2
 
- 		$this->CI->db->where('sl.approve_type >=',1);
- 		$this->CI->db->where('sl.approve_status >',1);
+
+		$this->CI->db->where('sl.approve_type >=',1);
+ 		$this->CI->db->where('sl.approve_status',2);
  		$this->CI->db->where('sl.alter_staff1_status',1);
  		$this->CI->db->where('sl.alter_staff2_status',1);
  		$this->CI->db->where('sl.report2',$get_emp_staff_id['staff_id']);
  		$this->CI->db->from(''.STAFF_LEAVE.' as sl');
 		$this->CI->db->join(''.STAFF_DETAILS.' as s','sl.staff_id = s.staff_id AND s.status = 1');
 		$this->CI->db->order_by('sl.approve_status','ASC');
+		$this->CI->db->select('s.staff_id,s.firstname,s.lastname,sl.apply_date,sl.from_date,sl.to_date,sl.reason,sl.file_name,sl.approve_status,sl.emp_leave_id,sl.leave_type,"2" as role_type,"Level 2" as leave_status ');
 		$get_level_2 = $this->CI->db->get()->result_array();
 
- 		$level_1_count = count($get_level_1);
+		//get_level 1  history
 
- 		$level_2_count = count($get_level_2);
+ 		$this->CI->db->where('sl.approve_type >=',1);
+ 		$this->CI->db->where('sl.approve_status',2);
+ 		$this->CI->db->where('sl.alter_staff1_status',1);
+ 		$this->CI->db->where('sl.alter_staff2_status',1);
+ 		$this->CI->db->where('sl.report1',$get_emp_staff_id['staff_id']);
+ 		$this->CI->db->from(''.STAFF_LEAVE.' as sl');
+		$this->CI->db->join(''.STAFF_DETAILS.' as s','sl.staff_id = s.staff_id AND s.status = 1');
+		$this->CI->db->select('s.staff_id,s.firstname,s.lastname,sl.apply_date,sl.from_date,sl.to_date,sl.reason,sl.file_name,sl.approve_status,sl.emp_leave_id,sl.leave_type,"1" as role_type,"Level 1" as leave_status ');
+ 		$this->CI->db->order_by('sl.approve_status','ASC');
+		$get_level_1_his = $this->CI->db->get()->result_array();
 
- 		if($level_type == 1){
+		
 
- 			$get_leave_req = $get_level_1;
+		//get_level 2 History
 
-			$role_type = 1;
-			 
+		$this->CI->db->where('sl.approve_type >=',1);
+ 		$this->CI->db->where('sl.approve_status',3);
+ 		$this->CI->db->where('sl.alter_staff1_status',1);
+ 		$this->CI->db->where('sl.alter_staff2_status',1);
+ 		$this->CI->db->where('sl.report2',$get_emp_staff_id['staff_id']);
+ 		$this->CI->db->from(''.STAFF_LEAVE.' as sl');
+		$this->CI->db->join(''.STAFF_DETAILS.' as s','sl.staff_id = s.staff_id AND s.status = 1');
+		$this->CI->db->order_by('sl.approve_status','ASC');
+		$this->CI->db->select('s.staff_id,s.firstname,s.lastname,sl.apply_date,sl.from_date,sl.to_date,sl.reason,sl.file_name,sl.approve_status,sl.emp_leave_id,sl.leave_type,"2" as role_type,"Level 2" as leave_status ');
+		$get_level_2_his = $this->CI->db->get()->result_array();
+
+
+
+
+
+ 		$leave_management = array_merge($get_level_1,$get_level_2);
+		$leave_count = count($leave_management);
+
+		$leave_management_his = array_merge($get_level_1_his,$get_level_2_his);
+		$leave_count_his = count($leave_management_his);
+
+		if($level_type == 1){
+ 			$get_leave_req = $leave_management; 
  		}
- 		else{
-
- 			$get_leave_req = $get_level_2;
-
-			$role_type = 2;
- 
-
+ 		else if($level_type == 2){
+ 			$get_leave_req = $leave_management_his; 
  		} 
 
- 		$leave_management = array('leave_management'=>$get_leave_req,'role_type'=>$role_type,'leve1_1_count'=>$level_1_count,'level_2_count'=>$level_2_count);
+		$leave_management = array('leave_management'=>$get_leave_req,'leave_count'=>$leave_count,'leave_count_his'=>$leave_count_his);
   
  		return $leave_management;
- 
+
+		 
  	}
 
  	public function Autorun_Attd(){

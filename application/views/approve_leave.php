@@ -22,16 +22,27 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                                <li role="presentation" class="active"><a href="#home_animation_2" data-toggle="tab" aria-expanded="true" ng-click="get_leave_req(1)">Level 1  
-                                    <span class="badge" style="background: red;    color: white;margin: 0px 0 1px 6px;">{{leve1_1_count}}</span></a></li>
-                                <li role="presentation" class=""><a href="#profile_animation_2" data-toggle="tab" aria-expanded="false" ng-click="get_leave_req(2)">Level 2
-                                <span class="badge" style="background: red;    color: white;margin: 0px 0 1px 6px;">{{level_2_count}}</span></a></li> 
+                                <li role="presentation" class="active"><a href="#home_animation_2" data-toggle="tab" aria-expanded="true" ng-click="get_leave_req(1)">Leave Approve
+                                    <span class="badge" style="background: red;    color: white;margin: 0px 0 1px 6px;">{{leave_count}}</span></a></li>
+                                <li role="presentation" class=""><a href="#profile_animation_2" data-toggle="tab" aria-expanded="false" ng-click="get_leave_req(2)">Leave History
+                                <span class="badge" style="background: red;    color: white;margin: 0px 0 1px 6px;">{{leave_count_his}}</span></a></li>  
                                  
+ 
                             </ul>
 
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" >
+                                    <div class="row">
+                                    
+                                        <div class="col-sm-3 pull-right" style="    margin-bottom: 0px;">
+                                           
+                                            <input type="text" ng-model="search" ng-change="filter()" placeholder="Search" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <br/>
+
+
                                     <div class="row">
                                         <div class="col-md-12" ng-show="filter_data > 0">
                                             <table class="table table-striped table-bordered">
@@ -46,7 +57,9 @@
                                                         <th>Reason</th>
                                                         <th>Attachment</th>
                                                         <th>Leave Type</th>
+                                                        <th>Leave Status</th>
                                                         <th>View</th>
+
                                                         <th>Status type</th>
                                                     </tr>
                                                 </thead>
@@ -64,11 +77,12 @@
                                                         </td>
                                                         <td ng-if="data.file_name == ''">-</td>
                                                         <td>{{data.leave_type}}</td>
+                                                        <th>{{data.leave_status}}</th>
                                                         
                                                         <td> <button data-toggle="modal" data-target="#largeModal" type="button" class="btn btn-primary waves-effect"  ng-click="get_leave_policy_details(data.emp_leave_id)"><i class="fa fa-eye" aria-hidden="true"></i></button></td>
 
-                                                        <td style="    width: 3cm;" ng-if="role_Type == '1' && data.approve_status >= 1 && data.approve_status < 3"> 
-                                                            <button  ng-disabled="data.approve_status == 2" type="button" class="btn btn-success waves-effect"  ng-click="accept_leave_apply(data.emp_leave_id,data.staff_id,role_Type)"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                                        <td style="    width: 3cm;" ng-if="data.role_type == '1' && data.approve_status >= 1 && data.approve_status < 3"> 
+                                                            <button  ng-disabled="data.approve_status == 2" type="button" class="btn btn-success waves-effect"  ng-click="accept_leave_apply(data.emp_leave_id,data.staff_id,data.role_type)"><i class="fa fa-check" aria-hidden="true"></i></button>
                                                            <button data-toggle="modal" data-target="#RejectModal{{data.emp_leave_id}}"  type="button" class="btn btn-danger waves-effect"   ><i class="fa fa-times" aria-hidden="true"></i></button>
                                                             
                                                                             <div class="modal fade in" id="RejectModal{{data.emp_leave_id}}" tabindex="-1" role="dialog" style="display: none;">
@@ -83,7 +97,7 @@
                                                                           
                                                                                         </div>
                                                                                         <div class="modal-footer">
-                                                                                            <button type="button" class="btn btn-link waves-effect" ng-click="reject_leave_apply(data.emp_leave_id,data.staff_id,role_Type,reject_reason)"> OK</button>
+                                                                                            <button type="button" class="btn btn-link waves-effect" ng-click="reject_leave_apply(data.emp_leave_id,data.staff_id,data.role_type,reject_reason)"> OK</button>
                                                                                             <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>                                                                        
                                                                                             
                                                                                         </div>
@@ -92,8 +106,8 @@
                                                                             </div>
                                                         </td>
 
-                                                        <td style="    width: 3cm;" ng-if="role_Type == '2' && data.approve_status >= 2"> 
-                                                            <button  ng-disabled="data.approve_status >= 3" type="button" class="btn btn-success waves-effect"  ng-click="accept_leave_apply(data.emp_leave_id,data.staff_id,role_Type)"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                                        <td style="    width: 3cm;" ng-if="data.role_type == '2' && data.approve_status >= 2"> 
+                                                            <button  ng-disabled="data.approve_status >= 3" type="button" class="btn btn-success waves-effect"  ng-click="accept_leave_apply(data.emp_leave_id,data.staff_id,data.role_type)"><i class="fa fa-check" aria-hidden="true"></i></button>
                                                            <button data-toggle="modal" data-target="#RejectModal{{data.emp_leave_id}}" type="button" class="btn btn-danger waves-effect"  ><i class="fa fa-times" aria-hidden="true"></i></button>
                                                             
                                                                     <div class="modal fade in" id="RejectModal{{data.emp_leave_id}}" tabindex="-1" role="dialog" style="display: none;">
@@ -106,7 +120,7 @@
                                                                                     <textarea class="form-control" name="reject_reason" ng-model="reject_reason"></textarea>
                                                                                 </div>
                                                                                 <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-link waves-effect" ng-click="reject_leave_apply(data.emp_leave_id,data.staff_id,role_Type,reject_reason)"> OK</button>
+                                                                                    <button type="button" class="btn btn-link waves-effect" ng-click="reject_leave_apply(data.emp_leave_id,data.staff_id,data.role_type,reject_reason)"> OK</button>
                                                                                     <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
                                                                                 </div>
                                                                             </div>

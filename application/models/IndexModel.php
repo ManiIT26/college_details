@@ -6,7 +6,7 @@ class IndexModel Extends CI_Model{
 		$usr_id = $this->session->userdata('user_type_id');
 		$college_id = $this->session->userdata('college_id');
 
-		if($college_id != 0){
+		if($college_id != 0 && $usr_id != 0){
 
 			$get_notifcation = $this->db->where('status',0) 
 								->where('alter_staff',$usr_id)
@@ -14,11 +14,16 @@ class IndexModel Extends CI_Model{
 								->get(ALTER_STAFF)->result_array();
 
 
+		
+
+			$applied_leave = array();
 
 
-			$applied_leave = array();				
+				
 
 			foreach($get_notifcation as $notification){ 
+
+				
 
 				if($notification['alter_staff_type'] == 1){
 					$this->db->where('sl.alter_staff1_status',0);
@@ -33,11 +38,14 @@ class IndexModel Extends CI_Model{
 				$this->db->join(''.STAFF_DETAILS.' as s','sl.staff_id = s.staff_id AND s.status = 1 AND s.staff_type = 0');
 				$rr = $this->db->get()->row_array();
 
+				  
+
 				$applied_leave[] = $rr + $notification; 
 	 
-			}		
+			}	
 
-			//print_r($applied_leave);
+			 
+			
 		}else{
 			$applied_leave = array();
 		}	 		
