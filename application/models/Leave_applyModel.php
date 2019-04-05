@@ -82,7 +82,8 @@ class Leave_applyModel Extends CI_Model{
 		if($get_approve_type['role'] == 'PRINCIPAL' || $get_approve_type['role'] == 'ED' ||$get_approve_type['role'] == 'EO'||$get_approve_type['role'] == 'FO'||$get_approve_type['role'] == 'DEAN' || $get_approve_type['role'] == 'S_COORDINATIOR'){
 
 			$this->db->where('sl.status',1);
-			$this->db->where('sl.staff_id',$leave_data['staff_id']);		
+			$this->db->where('sl.staff_id',$leave_data['staff_id']);
+			$this->db->where('a.emp_leave_id',$insert_id);		
 			$this->db->select('sl.staff_id,sl.firstname,sl.lastname,sl.email_id,sl.s_id,a.apply_date,a.leave_subject,a.from_date,a.to_date,a.total_days,a.reason,r.role,c.college_name');
 			$this->db->from(''.STAFF_DETAILS.' as sl');
 			$this->db->join(' '.STAFF_LEAVE.' as a','sl.staff_id = a.staff_id','INNER'); 
